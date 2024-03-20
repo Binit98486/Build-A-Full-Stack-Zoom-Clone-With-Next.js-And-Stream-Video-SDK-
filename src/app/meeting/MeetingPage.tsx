@@ -2,11 +2,14 @@
 
 import AudioVolumeIndicator from "@/components/AudioVolumeIndicator";
 import Button, { buttonClassname } from "@/components/Button";
+import FlexiableCallLayout from "@/components/FlexiableCallLayout";
 import PermissionPrompt from "@/components/PermissionPrompt";
 import useLoadCall from "@/hooks/useLoadCall";
 import useStreamCall from "@/hooks/useStreamCall";
 import { useUser } from "@clerk/nextjs";
 import {
+  CallControls,
+  CallingState,
   DeviceSettings,
   SpeakerLayout,
   StreamCall,
@@ -123,6 +126,15 @@ Join with mic & camera off
       <Button onClick={onSetupComplete}>Join meeting</Button>
     </div>
   );
+}
+function CallUi(){
+  const {useCallCallingState}=useCallStateHooks()
+  const callingState= useCallCallingState()
+  if(callingState!= CallingState.JOINED){
+    return <Loader2  className="animate-spin mx-auto"/>
+  }
+  return <FlexiableCallLayout/>
+   
 }
 
 function UpcomingMeetingScreen() {
